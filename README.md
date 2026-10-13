@@ -139,3 +139,27 @@ If you find this model useful, please consider citing.
 ```
 # Disclaimer
 Don't use this model to do bad things. Prompts are sourced from freely available data on the internet.
+
+## Turbo and Nano on the faster branch
+
+The fork also provides the upstream English Turbo and Nano models. Their
+GPT2 and mean-flow inference modules are separate from the optimized original
+and multilingual implementations.
+
+```python
+from chatterbox.tts_turbo import ChatterboxTurboTTS
+
+model = ChatterboxTurboTTS.from_pretrained(device="cpu")
+# Use nano=True for the smaller ResembleAI/chatterbox-nano checkpoint.
+wav = model.generate("Hello from Chatterbox.")
+```
+
+Use `from_local(checkpoint_directory, device="cpu", nano=True)` for an
+already downloaded Nano checkpoint. Reference audio passed through
+`audio_prompt_path` must be longer than five seconds. Turbo and Nano do not
+support CFG, exaggeration, or min-p sampling. They do not expose the fork's
+`dtype` or `inference` loader options.
+
+Install the package dependencies, including `pyloudnorm` and
+`transformers==4.46.3`. Source provenance is recorded in
+[src/chatterbox/models/turbo/UPSTREAM.md](src/chatterbox/models/turbo/UPSTREAM.md).
